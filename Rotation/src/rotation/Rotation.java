@@ -34,12 +34,13 @@ public class Rotation {
         int r = gr;
         int c = gr;
         while(r>0){
-           System.out.println(bf.readLine());
-           r--;
+           //System.out.println(bf.readLine());
            while(c>0){
-           System.out.println(bf.read());
+           System.out.println(bf.);
            c--;
            }
+           r--;
+           c = gr;
        }
     }
 }
