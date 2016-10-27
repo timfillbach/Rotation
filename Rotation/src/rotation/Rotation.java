@@ -30,17 +30,32 @@ public class Rotation {
         BufferedReader bf = new BufferedReader(FileReader);
         String s = bf.readLine();
         int gr = Integer.parseInt(s);
+        /*
         System.out.println(gr);
         int r = gr;
         int c = gr;
         while(r>0){
-           //System.out.println(bf.readLine());
            while(c>0){
-           System.out.println(bf.);
+           String z1 = bf.readLine();
+           
            c--;
            }
-           r--;
-           c = gr;
-       }
+        r--;
+        c = gr;
+        }
+        */
+        int[][] root = new int[gr][gr];
+        String line = bf.readLine();
+        for (int p=0; p<gr; p++) {
+            
+            for (int n=0; n<gr; n++) {
+                if (line.charAt(n)=='#')
+                    root[p][n] = -4;
+                else
+                root[p][n] = line.charAt(n);
+            }
+            
+            line = bf.readLine();
+        }
     }
 }
