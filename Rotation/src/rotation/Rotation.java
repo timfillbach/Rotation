@@ -28,9 +28,11 @@ public class Rotation {
          */
         FileReader FileReader = new FileReader("./src/rotation/rotation1.txt");
         BufferedReader bf = new BufferedReader(FileReader);
-        bf.readLine();
-        while(bf.readLine()!= null){
+        String s = bf.readLine();
+        int gr = Integer.parseInt(s);
+        System.out.println(gr);
+        for(int gr;){
            System.out.println(bf.readLine());   
-    }   }
-    
+       }
+    }
 }
