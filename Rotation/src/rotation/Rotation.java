@@ -38,7 +38,7 @@ public class Rotation {
            while(c<=gr){
                switch (line.charAt(c)) {
                    case ' ':
-                       root[r][c] = -3;
+                       root[r][c] = -4;
                        break;
                    case '#':
                        root[r][c] = -1;
@@ -47,7 +47,7 @@ public class Rotation {
                        root[r][c] = c;
                        break;
                }
-               if(line.charAt(c)==' '||r==gr){root[r][c] = -4;}
+               if(line.charAt(c)==' '||r==gr){root[r][c] = -5;}
            c++;
            }
         r++;
