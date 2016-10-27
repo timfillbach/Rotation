@@ -8,6 +8,7 @@ package rotation;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  *
@@ -25,9 +26,10 @@ public class Rotation {
          *  2. Starte mit erstem Feld
          *  3. Return Drehungen bzw. keine Drehung
          */
-        FileReader FileReader = new FileReader("rotation1.txt");
+        FileReader FileReader = new FileReader("./src/rotation/rotation1.txt");
         BufferedReader bf = new BufferedReader(FileReader);
-        while(bf.readLine()!=null){
+        bf.readLine();
+        while(bf.readLine()!= null){
            System.out.println(bf.readLine());   
     }   }
     
