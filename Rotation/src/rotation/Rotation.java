@@ -31,8 +31,15 @@ public class Rotation {
         String s = bf.readLine();
         int gr = Integer.parseInt(s);
         System.out.println(gr);
-        for(int gr;){
-           System.out.println(bf.readLine());   
+        int r = gr;
+        int c = gr;
+        while(r>0){
+           System.out.println(bf.readLine());
+           r--;
+           while(c>0){
+           System.out.println(bf.read());
+           c--;
+           }
        }
     }
 }
