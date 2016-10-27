@@ -8,7 +8,6 @@ package rotation;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  *
@@ -18,6 +17,7 @@ public class Rotation {
     
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
         /*
@@ -30,32 +30,31 @@ public class Rotation {
         BufferedReader bf = new BufferedReader(FileReader);
         String s = bf.readLine();
         int gr = Integer.parseInt(s);
-        /*
-        System.out.println(gr);
-        int r = gr;
-        int c = gr;
-        while(r>0){
-           while(c>0){
-           String z1 = bf.readLine();
-           
-           c--;
-           }
-        r--;
-        c = gr;
-        }
-        */
         int[][] root = new int[gr][gr];
         String line = bf.readLine();
-        for (int p=0; p<gr; p++) {
-            
-            for (int n=0; n<gr; n++) {
-                if (line.charAt(n)=='#')
-                    root[p][n] = -4;
-                else
-                root[p][n] = line.charAt(n);
-            }
-            
-            line = bf.readLine();
+        int r = 1;
+        int c = 1;
+        while(r<=gr){
+           while(c<=gr){
+               switch (line.charAt(c)) {
+                   case ' ':
+                       root[r][c] = -3;
+                       break;
+                   case '#':
+                       root[r][c] = -1;
+                       break;
+                   default:
+                       root[r][c] = c;
+                       break;
+               }
+               if(line.charAt(c)==' '||r==gr){root[r][c] = -4;}
+           c++;
+           }
+        r++;
+        c = 0;
+        line = bf.readLine();
         }
+        
+       
     }
 }
