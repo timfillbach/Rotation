@@ -47,7 +47,7 @@ public class Rotation {
                        root[r][c] = c;
                        break;
                }
-               if(line.charAt(c)==' ' && r==gr){root[r][c] = -5;}
+               if(r==gr && line.charAt(c)==' '){root[r][c] = -5;}
            c++;
            }
         r++;
