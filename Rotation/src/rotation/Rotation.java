@@ -8,7 +8,6 @@ package rotation;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  *
@@ -18,6 +17,7 @@ public class Rotation {
     
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
         /*
@@ -30,17 +30,31 @@ public class Rotation {
         BufferedReader bf = new BufferedReader(FileReader);
         String s = bf.readLine();
         int gr = Integer.parseInt(s);
-        System.out.println(gr);
-        int r = gr;
-        int c = gr;
-        while(r>0){
-           //System.out.println(bf.readLine());
-           while(c>0){
-           System.out.println(bf.);
-           c--;
+        int[][] root = new int[gr][gr];
+        String line = bf.readLine();
+        int r = 1;
+        int c = 1;
+        while(r<=gr){
+           while(c<=gr){
+               switch (line.charAt(c)) {
+                   case ' ':
+                       root[r][c] = -4;
+                       break;
+                   case '#':
+                       root[r][c] = -1;
+                       break;
+                   default:
+                       root[r][c] = c;
+                       break;
+               }
+               if(r==gr && line.charAt(c)==' '){root[r][c] = -5;}
+           c++;
            }
-           r--;
-           c = gr;
-       }
+        r++;
+        c = 0;
+        line = bf.readLine();
+        }
+        
+       
     }
 }
