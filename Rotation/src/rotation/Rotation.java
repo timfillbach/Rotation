@@ -30,31 +30,32 @@ public class Rotation {
         BufferedReader bf = new BufferedReader(FileReader);
         String s = bf.readLine();
         int gr = Integer.parseInt(s);
-        int[][] root = new int[gr][gr];
-        String line = bf.readLine();
-        int r = 1;
-        int c = 1;
-        while(r<=gr-1){
-           while(c<=gr-1){
-               switch (line.charAt(c)) {
-                   case ' ':
-                       root[r][c] = -4;
-                       break;
-                   case '#':
-                       root[r][c] = -1;
-                       break;
-                   default:
-                       root[r][c] = c;
-                       break;
-               }
-               if(r==gr-1 && line.charAt(c)==' '){root[r][c] = -5;}
-           c++;
-           }
+        int[][] source = new int[gr][gr];
+        String line;
+        int r = 0;
+        int c;
+        while(r < gr){
+            c = 0;
+            line = bf.readLine();
+            while(c < gr){
+                switch (line.charAt(c)) {
+                    case ' ':
+                        source[c][r] = -4;
+                        break;
+                    case '#':
+                        source[c][r] = -1;
+                        break;
+                    default:
+                        source[c][r] = Integer.parseInt(line.charAt(c)+"");
+                        break;
+                }
+                if(r==gr-1 && line.charAt(c)==' '){source[c][r] = -5;}
+            c++;
+            }
         r++;
-        c = 0;
-        line = bf.readLine();
         }
         
-       
+        Feld root = new Feld(source, 0, true);
+        root.print();
     }
 }
