@@ -13,19 +13,15 @@ public class Feld {
     public Feld(int[][] inputData, int inputState, boolean turnLeft) {
         
         data = inputData;
-        if (turnLeft) {
+        if (turnLeft) { // anti-clockwise
             if (inputState < 3) state++;
             else state = 0;
-        } else {
+        } else { // clockwise
             if (inputState > 0) state--;
             else state = 3;
         }
-        switch (state) {
-            case 0: b = 1;
-            case 1: a = -1;
-            case 2: b = -1;
-            case 3: a = 1;
-        }
+        
+        //print();
         
         applyGravity();
         
@@ -36,12 +32,24 @@ public class Feld {
         // Drehen Rechts
     }
     
-    private void applyGravity() {
+    public void applyGravity() {
         switch (state) {
-            case 0: gravityDown();
-            case 1: gravityLeft();
-            case 2: gravityUp();
-            case 3: gravityRight();
+            case 0:
+                b = 1;
+                gravityDown();
+                break;
+            case 1:
+                a = -1;
+                gravityLeft();
+                break;
+            case 2:
+                b = -1;
+                gravityUp();
+                break;
+            case 3:
+                a = 1;
+                gravityRight();
+                break;
         }
     }
     
@@ -178,6 +186,15 @@ public class Feld {
             case 1: break; //Spalte von Links
             case 2: break; //Reihe von Oben
             case 3: break; //Spalte von Rechts
+        }
+    }
+    
+    public void print() {
+        for (int y = 0; y < data.length; y++) {
+            for (int x = 0; x < data.length; x++) {
+                System.out.print(data[x][y] + " ");
+            }
+            System.out.println();
         }
     }
     
