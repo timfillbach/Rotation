@@ -38,16 +38,16 @@ public class Rotation {
            while(c<=gr-1){
                switch (line.charAt(c)) {
                    case ' ':
-                       root[r][c] = -4;
+                       root[r][c] = -4;                                         //Frei
                        break;
                    case '#':
-                       root[r][c] = -1;
+                       root[r][c] = -1;                                         //Wand
                        break;
                    default:
-                       root[r][c] = c;
+                       root[r][c] = c;                                          //Element
                        break;
                }
-               if(r==gr-1 && line.charAt(c)==' '){root[r][c] = -5;}
+               if(r==gr-1 && line.charAt(c)==' '){root[r][c] = -5;}             //Ziel
            c++;
            }
         r++;
@@ -57,4 +57,4 @@ public class Rotation {
         
        
     }
-}
+}mµ
