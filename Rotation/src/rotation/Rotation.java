@@ -34,8 +34,8 @@ public class Rotation {
         String line = bf.readLine();
         int r = 1;
         int c = 1;
-        while(r<=gr){
-           while(c<=gr){
+        while(r<=gr-1){
+           while(c<=gr-1){
                switch (line.charAt(c)) {
                    case ' ':
                        root[r][c] = -4;
@@ -47,7 +47,7 @@ public class Rotation {
                        root[r][c] = c;
                        break;
                }
-               if(r==gr && line.charAt(c)==' '){root[r][c] = -5;}
+               if(r==gr-1 && line.charAt(c)==' '){root[r][c] = -5;}
            c++;
            }
         r++;
