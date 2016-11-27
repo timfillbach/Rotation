@@ -5,6 +5,7 @@ import static rotation.Rotation.down;
 import static rotation.Rotation.left;
 import static rotation.Rotation.right;
 import static rotation.Rotation.up;
+import static rotation.Rotation.counter;
 
 public class Feld {
     
@@ -15,12 +16,20 @@ public class Feld {
     int current;
     boolean clear;
     boolean success;
+    String way;
+    boolean turnLeft;
     boolean duplicate;
     
     public Feld(int[][] inputData, int inputState, boolean turnLeft) {
         
-        data = inputData;
+        data = new int[inputData.length][inputData.length];
+        for (int i=0; i<inputData.length; i++) {
+            for (int k=0; k<inputData.length; k++) {
+                data[i][k] = inputData[i][k];
+            }
+        }
         state = inputState;
+        this.turnLeft = turnLeft;
         if (turnLeft) { // anti-clockwise
             if (inputState < 3) state++;
             else state = 0;
@@ -31,21 +40,32 @@ public class Feld {
         
         applyGravity();
         
-        testDuplicate();
-        print();
-        
-        if (duplicate == false) {
+        if (counter == -1) {
+            testDuplicate();
+            print();
             
-            Feld links = new Feld(data, state, true);
-            Feld rechts = new Feld(data, state, false);
-            
+            if (duplicate == false && success == false) {
+                
+                Feld links = new Feld(data, state, true);
+                String left = links.output();
+                // hier schon auf Counter achten, für rechts
+                
+                Feld rechts = new Feld(data, state, false);
+                String right = rechts.output();
+                // hier vergleichen, kürzeres nehmen und output geben
+                // counter irgendwo erhöhen / erniedrigen
+                
+            }
+        } else {
+            if (counter > 0) {
+                counter--;
+                Feld links = new Feld(data, state, true);
+                Feld rechts = new Feld(data, state, false);
+            }
         }
-        
-        // Drehen Links
-        // Drehen Rechts
     }
     
-    public void applyGravity() {
+    private void applyGravity() {
         switch (state) {
             case 0:
                 b = 1;
@@ -70,44 +90,103 @@ public class Feld {
         switch (state) {
             case 0:
                 for (int n = 0; n <= down.size()-1; n++) {
-                    if (this.data.equals(down.get(n))) {
+                    boolean continueTest = true;
+                    int x = 0;
+                    while (continueTest && x <= down.get(n).length-1) {
+                        int y = 0;
+                        while (continueTest && y <= down.get(n).length-1) {
+                            if (this.data[x][y] != down.get(n)[x][y]) {
+                                continueTest = false;
+                            }
+                            y++;
+                        }
+                        x++;
+                    }
+                    if (continueTest) {
                         duplicate = true;
                     }
                 }
                 if (duplicate == false) {
-                    down.add(data);
+                    down.add(this.data);
                 }
                 break;
             case 1:
                 for (int n = 0; n <= left.size()-1; n++) {
-                    if (this.data.equals(left.get(n))) {
+                    boolean continueTest = true;
+                    int x = 0;
+                    while (continueTest && x <= left.get(n).length-1) {
+                        int y = 0;
+                        while (continueTest && y <= left.get(n).length-1) {
+                            if (this.data[x][y] != left.get(n)[x][y]) {
+                                continueTest = false;
+                            }
+                            y++;
+                        }
+                        x++;
+                    }
+                    if (continueTest) {
                         duplicate = true;
                     }
                 }
                 if (duplicate == false) {
-                    left.add(data);
+                    left.add(this.data);
                 }
                 break;
             case 2:
                 for (int n = 0; n <= up.size()-1; n++) {
-                    if (this.data.equals(up.get(n))) {
+                    boolean continueTest = true;
+                    int x = 0;
+                    while (continueTest && x <= up.get(n).length-1) {
+                        int y = 0;
+                        while (continueTest && y <= up.get(n).length-1) {
+                            if (this.data[x][y] != up.get(n)[x][y]) {
+                                continueTest = false;
+                            }
+                            y++;
+                        }
+                        x++;
+                    }
+                    if (continueTest) {
                         duplicate = true;
                     }
                 }
                 if (duplicate == false) {
-                    up.add(data);
+                    up.add(this.data);
                 }
                 break;
             case 3:
                 for (int n = 0; n <= right.size()-1; n++) {
-                    if (this.data.equals(right.get(n))) {
+                    boolean continueTest = true;
+                    int x = 0;
+                    while (continueTest && x <= right.get(n).length-1) {
+                        int y = 0;
+                        while (continueTest && y <= right.get(n).length-1) {
+                            if (this.data[x][y] != right.get(n)[x][y]) {
+                                continueTest = false;
+                            }
+                            y++;
+                        }
+                        x++;
+                    }
+                    if (continueTest) {
                         duplicate = true;
                     }
                 }
                 if (duplicate == false) {
-                    right.add(data);
+                    right.add(this.data);
                 }
                 break;
+        }
+    }
+    
+    public String output() {
+        if (success) {
+            counter = 1;
+            if (turnLeft) {
+                return "L";
+            } else {
+                return "R";
+            }
         }
     }
     
@@ -244,7 +323,7 @@ public class Feld {
         }
     }
         
-    public void print() {
+    private void print() {
         for (int y = 0; y < data.length; y++) {
             for (int x = 0; x < data.length; x++) {
                 System.out.print(data[x][y] + " ");
