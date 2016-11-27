@@ -1,6 +1,11 @@
 
 package rotation;
 
+import static rotation.Rotation.down;
+import static rotation.Rotation.left;
+import static rotation.Rotation.right;
+import static rotation.Rotation.up;
+
 public class Feld {
     
     int[][] data;
@@ -9,6 +14,8 @@ public class Feld {
     int b = 0; //Reihe
     int current;
     boolean clear;
+    boolean success;
+    boolean duplicate;
     
     public Feld(int[][] inputData, int inputState, boolean turnLeft) {
         
@@ -24,9 +31,16 @@ public class Feld {
         
         applyGravity();
         
+        testDuplicate();
+        print();
         
-        // Testen ob erfolgreich
-        // Testen Abbruchbedingung
+        if (duplicate == false) {
+            
+            Feld links = new Feld(data, state, true);
+            Feld rechts = new Feld(data, state, false);
+            
+        }
+        
         // Drehen Links
         // Drehen Rechts
     }
@@ -52,12 +66,57 @@ public class Feld {
         }
     }
     
+    public void testDuplicate() {
+        switch (state) {
+            case 0:
+                for (int n = 0; n <= down.size()-1; n++) {
+                    if (this.data.equals(down.get(n))) {
+                        duplicate = true;
+                    }
+                }
+                if (duplicate == false) {
+                    down.add(data);
+                }
+                break;
+            case 1:
+                for (int n = 0; n <= left.size()-1; n++) {
+                    if (this.data.equals(left.get(n))) {
+                        duplicate = true;
+                    }
+                }
+                if (duplicate == false) {
+                    left.add(data);
+                }
+                break;
+            case 2:
+                for (int n = 0; n <= up.size()-1; n++) {
+                    if (this.data.equals(up.get(n))) {
+                        duplicate = true;
+                    }
+                }
+                if (duplicate == false) {
+                    up.add(data);
+                }
+                break;
+            case 3:
+                for (int n = 0; n <= right.size()-1; n++) {
+                    if (this.data.equals(right.get(n))) {
+                        duplicate = true;
+                    }
+                }
+                if (duplicate == false) {
+                    right.add(data);
+                }
+                break;
+        }
+    }
+    
     private void gravityDown() {
-        for (int n = 1; n <= data.length-2; n++) {
-            for (int y = data.length-2; y >= n; y--) {
+        for (int n = 0; n <= data.length-1; n++) {
+            for (int y = data.length-1; y >= n; y--) {
                 current = -4;
                 clear = true;
-                for (int x = 1; x < data.length; x++) {
+                for (int x = 0; x <= data.length-1; x++) {
                     processTile(x, y);
                 }
             }
@@ -65,11 +124,11 @@ public class Feld {
     }
     
     private void gravityLeft() {
-        for (int n = data.length-2; n >= 1; n--) {
-            for (int x = 2; x <= n; x++) {
+        for (int n = data.length-1; n >= 0; n--) {
+            for (int x = 0; x <= n; x++) {
                 current = -4;
                 clear = true;
-                for (int y = 1; y < data.length; y++) {
+                for (int y = 0; y <= data.length-1; y++) {
                     processTile(x, y);
                 }
             }
@@ -77,11 +136,11 @@ public class Feld {
     }
     
     private void gravityUp() {
-        for (int n = data.length-2; n >= 1; n--) {
-            for (int y = 2; y >= n; y++) {
+        for (int n = data.length-1; n >= 0; n--) {
+            for (int y = 0; y <= n; y++) {
                 current = -4;
                 clear = true;
-                for (int x = 1; x < data.length; x++) {
+                for (int x = 0; x <= data.length-1; x++) {
                     processTile(x, y);
                 }
             }
@@ -89,11 +148,11 @@ public class Feld {
     }
     
     private void gravityRight() {
-        for (int n = 1; n <= data.length-2; n++) {
-            for (int x = data.length-2; x >= n; x--) {
+        for (int n = 0; n <= data.length-1; n++) {
+            for (int x = data.length-1; x >= n; x--) {
                 current = -4;
                 clear = true;
-                for (int y = 1; y < data.length; y++) {
+                for (int y = 0; y <= data.length-1; y++) {
                     processTile(x, y);
                 }
             }
@@ -150,21 +209,26 @@ public class Feld {
     }
     
     private void replace(int c, int r) {
-        if (data[c][r] == -2 || data[c][r] == -3) {
+        if (data[c][r] == -2) {
             data[c][r] = current;
         } else if (data[c][r] == current) {
             data[c][r] = -4;
+        } else if (data[c][r] == -3) {
+            data[c][r] = current;
+            success = true;
         }
     }
     
     private void obstacles(int x, int y) {
-        if (clear && data[x+a][y+b] == -4) {
-            data[x+a][y+b] = -2;
-        } else if (clear && data[x+a][y+b] == -5) {
-            data[x+a][y+b] = -3;
-        } else {
-            clear = false;
-            cleanup();
+        if (current != -4) {
+            if (clear && data[x+a][y+b] == -4) {
+                data[x+a][y+b] = -2;
+            } else if (clear && data[x+a][y+b] == -5) {
+                data[x+a][y+b] = -3;
+            } else {
+                clear = false;
+                cleanup();
+            }
         }
     }
     
@@ -179,7 +243,7 @@ public class Feld {
             }
         }
     }
-    
+        
     public void print() {
         for (int y = 0; y < data.length; y++) {
             for (int x = 0; x < data.length; x++) {
@@ -187,6 +251,7 @@ public class Feld {
             }
             System.out.println();
         }
+        System.out.println();
     }
     
 }
