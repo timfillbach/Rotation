@@ -13,6 +13,7 @@ public class Feld {
     public Feld(int[][] inputData, int inputState, boolean turnLeft) {
         
         data = inputData;
+        state = inputState;
         if (turnLeft) { // anti-clockwise
             if (inputState < 3) state++;
             else state = 0;
@@ -21,11 +22,9 @@ public class Feld {
             else state = 3;
         }
         
-        //print();
-        
         applyGravity();
         
-        // Apply Gravity
+        
         // Testen ob erfolgreich
         // Testen Abbruchbedingung
         // Drehen Links
@@ -56,9 +55,9 @@ public class Feld {
     private void gravityDown() {
         for (int n = 1; n <= data.length-2; n++) {
             for (int y = data.length-2; y >= n; y--) {
-                current = -1;
+                current = -4;
                 clear = true;
-                for (int x = 1; x <= data.length-2; x++) {
+                for (int x = 1; x < data.length; x++) {
                     processTile(x, y);
                 }
             }
@@ -68,9 +67,9 @@ public class Feld {
     private void gravityLeft() {
         for (int n = data.length-2; n >= 1; n--) {
             for (int x = 2; x <= n; x++) {
-                current = -1;
+                current = -4;
                 clear = true;
-                for (int y = 1; y <= data.length-2; y++) {
+                for (int y = 1; y < data.length; y++) {
                     processTile(x, y);
                 }
             }
@@ -80,9 +79,9 @@ public class Feld {
     private void gravityUp() {
         for (int n = data.length-2; n >= 1; n--) {
             for (int y = 2; y >= n; y++) {
-                current = -1;
+                current = -4;
                 clear = true;
-                for (int x = 1; x <= data.length-2; x++) {
+                for (int x = 1; x < data.length; x++) {
                     processTile(x, y);
                 }
             }
@@ -91,10 +90,10 @@ public class Feld {
     
     private void gravityRight() {
         for (int n = 1; n <= data.length-2; n++) {
-            for (int x = data.length-3; x >= n; x--) {
-                current = -1;
+            for (int x = data.length-2; x >= n; x--) {
+                current = -4;
                 clear = true;
-                for (int y = 1; y <= data.length-2; y++) {
+                for (int y = 1; y < data.length; y++) {
                     processTile(x, y);
                 }
             }
@@ -104,9 +103,9 @@ public class Feld {
     private void processTile(int x, int y) {
         if (data[x][y] != current) {
             if (current >= 0 && clear) {
-                moveObject();
+                moveObject(x, y);
             }
-            current = -1;
+            current = -4;
             clear = true;
             if (data[x][y] >= 0) {
                 current = data[x][y];
@@ -117,21 +116,52 @@ public class Feld {
         }
     }
     
-    private void moveObject() {
-        for (int i = 1; i <= data.length-1; i++) {
-            for (int k = 1; k <= data.length-2; k++) {
-                if (data[i][k] == -2) {
-                    data[i][k] = current;
-                } else if (data[i][k] == current) {
-                    data[i][k] = -4;
+    private void moveObject(int x, int y) {
+        switch (state) {
+            case 0:
+                for (int r = y; r <= y+1; r++) {
+                    for (int c = 1; c <= data.length-2; c++) {
+                        replace(c, r);
+                    }
                 }
-            }
+                break;
+            case 1:
+                for (int c = x-1; c <= x; c++) {
+                    for (int r = 1; r <= data.length-2; r++) {
+                        replace(c, r);
+                    }
+                }
+                break;
+            case 2:
+                for (int r = y-1; r <= y; r++) {
+                    for (int c = 1; c <= data.length-2; c++) {
+                        replace(c, r);
+                    }
+                }
+                break;
+            case 3:
+                for (int c = x; c <= x+1; c++) {
+                    for (int r = 1; r <= data.length-2; r++) {
+                        replace(c, r);
+                    }
+                }
+                break;
+        }
+    }
+    
+    private void replace(int c, int r) {
+        if (data[c][r] == -2 || data[c][r] == -3) {
+            data[c][r] = current;
+        } else if (data[c][r] == current) {
+            data[c][r] = -4;
         }
     }
     
     private void obstacles(int x, int y) {
         if (clear && data[x+a][y+b] == -4) {
             data[x+a][y+b] = -2;
+        } else if (clear && data[x+a][y+b] == -5) {
+            data[x+a][y+b] = -3;
         } else {
             clear = false;
             cleanup();
@@ -143,49 +173,10 @@ public class Feld {
             for (int k = 1; k <= data.length-2; k++) {
                 if (data[i][k] == -2) {
                     data[i][k] = -4;
+                } else if (data[i][k] == -3) {
+                    data[i][k] = -5;
                 }
             }
-        }
-    }
-    
-    private void applyGravityOld() {
-        switch (state) {
-            case 0:
-                for (int n=1; n<=data.length-2; n++) {
-                    for (int y=data.length-2; y>=n; y--) {
-                        int current = -1;
-                        boolean blocked = false;
-                        for (int x=1; x<=data.length-2; x++) {
-                            if (data[x][y] >= 0) {                              // Element          //!!! Wenn rechts von Element frei oder Wand?!
-                                if (data[x][y] != current) {                    // neues Element
-                                    if (current>=0 && blocked==false) {         // altes Element nicht geblockt -> kopieren
-                                        for (int p=1; p<x; p++) {
-                                            if (data[p][y+1] == -5) {
-                                                // Wuhuu!
-                                            } else if (data[p][y+1] == -4) {    // verschiebe Element
-                                                data[p][y+1] = current;
-                                                data[p][y] = -4;
-                                            }
-                                        }
-                                    }
-                                    blocked = false;
-                                    current = data[x][y];
-                                }
-                                if (blocked==false && data[x][y+1]<=-4) {       // nicht geblockt und frei
-                                    data[x][y+1] = data[x][y+1] + 2;            // erstelle temporären Wert
-                                } else blocked = true;                          // blockiert Element
-                            }
-                        }
-                        for (int p=1; p<=data.length-2; p++) {                  // temporäre Werte löschen
-                            if (data[p][y+1]==-2 || data[p][y+1]==-3)
-                                data[p][y+1] = data[p][y+1] - 2;
-                        }
-                    }
-                }
-                break; //Reihe von Unten, Unterste Reihe
-            case 1: break; //Spalte von Links
-            case 2: break; //Reihe von Oben
-            case 3: break; //Spalte von Rechts
         }
     }
     
