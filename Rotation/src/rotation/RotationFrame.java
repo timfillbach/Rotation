@@ -25,7 +25,6 @@ public class RotationFrame extends javax.swing.JFrame {
     public static ArrayList<int[][]> up = new ArrayList<>();
     public static ArrayList<int[][]> right = new ArrayList<>();
     public static int counter = -1;
-    public static int depth = -1;
     File aufgabe;
     /**
      * Creates new form RotationFrame
@@ -140,8 +139,11 @@ public class RotationFrame extends javax.swing.JFrame {
         }
         
         Feld root = new Feld(source, 3, true);
-        String solution = root.way;
-        System.out.println(solution);
+        String way = root.way;
+        String solution = "";
+        for (int i = way.length()-1; i > 0; i--) {
+            solution+=way.charAt(i);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
