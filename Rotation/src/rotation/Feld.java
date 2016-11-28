@@ -1,12 +1,12 @@
 
 package rotation;
 
-import static rotation.Rotation.down;
-import static rotation.Rotation.left;
-import static rotation.Rotation.right;
-import static rotation.Rotation.up;
-import static rotation.Rotation.counter;
-import static rotation.Rotation.depth;
+import static rotation.RotationFrame.down;
+import static rotation.RotationFrame.left;
+import static rotation.RotationFrame.right;
+import static rotation.RotationFrame.up;
+import static rotation.RotationFrame.counter;
+import static rotation.RotationFrame.depth;
 
 public class Feld {
     
