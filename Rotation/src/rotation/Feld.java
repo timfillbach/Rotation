@@ -12,8 +12,8 @@ public class Feld {
     
     int[][] data;
     int state;
-    int a = 0; //Spalte
-    int b = 0; //Reihe
+    int a = 0;                                                                  //Spalte
+    int b = 0;                                                                  //Reihe
     int current;
     boolean clear;
     boolean success;
@@ -22,7 +22,9 @@ public class Feld {
     boolean duplicate;
     
     public Feld(int[][] inputData, int inputState, boolean turnLeft) {
+        
         depth++;
+        
         if (counter > 0) {
             counter--;
         }
@@ -33,12 +35,13 @@ public class Feld {
                 data[i][k] = inputData[i][k];
             }
         }
+        
         state = inputState;
         this.turnLeft = turnLeft;
-        if (turnLeft) { // anti-clockwise
+        if (turnLeft) {                                                         // anti-clockwise
             if (inputState < 3) state++;
             else state = 0;
-        } else { // clockwise
+        } else {                                                                // clockwise
             if (inputState > 0) state--;
             else state = 3;
         }
@@ -49,10 +52,8 @@ public class Feld {
             testDuplicate();
         }
         
-        print();
-        
-        recursion();
-        
+        print();        
+        recursion();        
         depth--;
     }
     
@@ -170,10 +171,8 @@ public class Feld {
         }
     }
     
-    public void recursion() {
-        
-        if (counter != 0 && duplicate == false && success == false) {
-            
+    public void recursion() {        
+        if (counter != 0 && duplicate == false && success == false) {            
             Feld fieldLeft = new Feld(data, state, true);
             String wayLeft = fieldLeft.output();
             Feld fieldRight = new Feld(data, state, false);
@@ -193,8 +192,7 @@ public class Feld {
         }
         if (counter != -1) {
             counter++;
-        }
-        
+        }        
     }
     
     public String output() {
