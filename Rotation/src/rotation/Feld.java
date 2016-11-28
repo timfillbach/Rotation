@@ -6,7 +6,6 @@ import static rotation.RotationFrame.left;
 import static rotation.RotationFrame.right;
 import static rotation.RotationFrame.up;
 import static rotation.RotationFrame.counter;
-import static rotation.RotationFrame.depth;
 
 public class Feld {
     
@@ -22,8 +21,6 @@ public class Feld {
     boolean duplicate;
     
     public Feld(int[][] inputData, int inputState, boolean turnLeft) {
-        
-        depth++;
         
         if (counter > 0) {
             counter--;
@@ -52,9 +49,8 @@ public class Feld {
             testDuplicate();
         }
         
-        print();        
-        recursion();        
-        depth--;
+        recursion();
+        
     }
     
     private void applyGravity() {
@@ -341,20 +337,6 @@ public class Feld {
                 }
             }
         }
-    }
-        
-    private void print() {
-        System.out.println(state + " " + counter + " " + duplicate + " " + depth);
-        System.out.println(way);
-        for (int y = 0; y < data.length; y++) {
-            for (int x = 0; x < data.length; x++) {
-                if (data[x][y] == -4) System.out.print("  ");
-                else if (data[x][y] == -1) System.out.print("# ");
-                else System.out.print(data[x][y] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
     
 }
