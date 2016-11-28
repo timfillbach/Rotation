@@ -16,10 +16,12 @@ import java.util.ArrayList;
  */
 public class Rotation {
     
-    static public ArrayList<int[][]> down = new ArrayList<>();
-    static public ArrayList<int[][]> left = new ArrayList<>();
-    static public ArrayList<int[][]> up = new ArrayList<>();
-    static public ArrayList<int[][]> right = new ArrayList<>();
+    public static ArrayList<int[][]> down = new ArrayList<>();
+    public static ArrayList<int[][]> left = new ArrayList<>();
+    public static ArrayList<int[][]> up = new ArrayList<>();
+    public static ArrayList<int[][]> right = new ArrayList<>();
+    public static int counter = -1;
+    public static int depth = -1;
     
     /**
      * @param args the command line arguments
@@ -32,7 +34,7 @@ public class Rotation {
          *  2. Starte mit erstem Feld
          *  3. Return Drehungen bzw. keine Drehung
          */
-        FileReader FileReader = new FileReader("./src/rotation/rotation1.txt");
+        FileReader FileReader = new FileReader("./src/rotation/rotation2.txt");
         BufferedReader bf = new BufferedReader(FileReader);
         String s = bf.readLine();
         int gr = Integer.parseInt(s);
@@ -61,9 +63,8 @@ public class Rotation {
         r++;
         }
         
-        Feld links = new Feld(source, 0, true);
-        Feld rechts = new Feld(source, 0, false);
-        
-        links.print();
+        Feld root = new Feld(source, 3, true);
+        String solution = root.way;
+        System.out.println(solution);
     }
 }
